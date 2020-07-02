@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Pinochio's Pizza
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <!-- Topping Modal Medium -->
+    <div class="modal fade" id="toppingModalMd" tabindex="-1" role="dialog" aria-labelledby="toppingModalLabel"
+      aria-hidden="true">
+
+      <div class="modal-dialog" role="document">
+
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="toppingModalLabel">Select Size & Toppings</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              Select Pizza size
+              <form id="add_to_cart">
+                  {% csrf_token %}
+              <div class="row">
+                  <div class="col-4">
+                      <input type="radio" class="form-check-input size" id="Small" value="0" name="size">
+                      <label class="form-check-label" for="Small">Small ₹<span id="modalSmallPrice"></span></label>
+                  </div>
+                  <div class="col-4">
+                      <input type="radio" class="form-check-input size" id="Medium" value="1" name="size" checked>
+                      <label class="form-check-label" for="Medium">Medium ₹<span id="modalMediumPrice"></span></label>
+                  </div>
+                  <div class="col-4">
+                      <input type="radio" class="form-check-input size" id="Large" value="2" name="size">
+                      <label class="form-check-label" for="Large">Large ₹<span id="modalLargePrice"></span></label>
+                  </div>
+              </div>
+              <hr>
+              Select your toppings from the list..
+              <div class="row">
+                  {% for topping in toppings %}
+                <div class="custom-control custom-checkbox col-6">
+                    <input type="checkbox" class="custom-control-input toppings" id="{{ topping.id }}" value="{{ topping.price }}" name="{{ topping.id }}">
+                    <label class="custom-control-label" for="{{ topping.id }}">{{ topping.name }} (₹ {{ topping.price }})</label>
+                </div>
+                  {% endfor %}
+              </div>
+            <hr>
+              Your total amount: ₹ <span id="order_total">0</span>
+            <hr>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary btn-sm" id>Add to Cart</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Topping Modal Medium -->
+
+    <!--Main Navigation-->
+    <header>
+
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark teal">
+        <a class="navbar-brand" href="{% url 'home' %}"><strong>Pinochio's Pizza</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+              <li class="nav-item">
+                <a class="nav-link waves-effect waves-light" href="{% url 'cart' %}">{{ orders }}
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i>{{ user.first_name }} {{ user.last_name }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                  aria-labelledby="navbarDropdownMenuLink-333">
+                    <a class="dropdown-item" href="{% url 'orders' %}">Your Orders</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              </li>
+            </ul>
+        </div>
+      </nav>
+    </header>
+    <!--Main Navigation-->
+
+    <!--Main Layout-->
+    <main class="text-center py-5">
+
+      <div class="container">
+        <div class="row">
+            <!-- Card deck -->
+                {% for pizza in pizzas %}
+                <!-- Card -->
+                <div class="card gradient-card col-lg-3 col-md-6 col-sm-8">
+
+                <!--Card content-->
+                    <div class="card-body heavy-rain-gradient"  id="{{ pizza.id }}">
+
+                    <!--Title-->
+                        <h4 class="card-title">{{ pizza.name }}</h4>
+                        <!--Text-->
+                        <p class="card-text">{{ pizza.description }}</p>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="card-text" style="color:black;">Small</p>
+                                <p class="card-text" style="color:black;" id="{{ pizza.id }}_small_price">₹{{ pizza.small_price }}</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="card-text" style="color:black;">Medium</p>
+                                <p class="card-text" style="color:black;" id="{{pizza.id}}_medium_price">₹{{ pizza.medium_price }}</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="card-text" style="color:black;">Large</p>
+                                <p class="card-text" style="color:black;" id="{{pizza.id}}_large_price">₹{{ pizza.large_price }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                        <button type="button" class="btn btn-light-blue btn-md add_to_cart"
+                                data-toggle="modal" data-target="#toppingModalMd">
+                            Add to cart
+                        </button>
+
+                    </div>
+
+                </div>
+                <!-- Card -->
+                {% endfor %}
+        </div>
+      </div>
+    </main>
+
+{% endblock %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,22 @@
+html,
+body{
+  height: 100%;
+  background: url("../img/pizza-home-wallpaper.jpg")no-repeat center;
+  background-size: 100%;
+  background-attachment: fixed;
+}
+
+header,.view {
+  height: 5%;
+  }
+
+.card{
+    opacity: 0.95;    
+}
+.card-text{
+ color:black;
+}
+
+.order_toppings{
+  font-size: medium;
+}

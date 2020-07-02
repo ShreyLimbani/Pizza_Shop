@@ -1,3 +1,3 @@
-# Pizza_Shop
+# Project 3
 
-Django based web-app for ordering pizza from Pinochio's Pizza.
+Web Programming with Python and JavaScript

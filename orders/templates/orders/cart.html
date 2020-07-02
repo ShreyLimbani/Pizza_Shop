@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Pinochio's Pizza | Cart
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'css/cart.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <!--Main Navigation-->
+    <header>
+
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark teal">
+        <a class="navbar-brand" href="{% url 'home' %}"><strong>Pinochio's Pizza</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+              <li class="nav-item">
+                <a class="nav-link waves-effect waves-light" href="{% url 'cart' %}">{{ cart_orders_count }}
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i>{{ user.first_name }} {{ user.last_name }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                  aria-labelledby="navbarDropdownMenuLink-333">
+                    <a class="dropdown-item" href="{% url 'orders' %}">Your Orders</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              </li>
+            </ul>
+        </div>
+      </nav>
+    </header>
+    <!--Main Navigation-->
+
+    <!--Main Layout-->
+    <main class="text-center py-5">
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-start">
+                    <h3>Your Cart ({{cart_orders_count}})<h3>
+                </div>
+                <div class="card-body row">
+                    {% for order in cart_orders %}
+                    <div class="card-group col-6 orders" id="{{order.id}}">
+                        <div class="card" style="margin:10px;">
+                            <div class="card-body">
+                                <div class="card-header d-flex justify-content-center">
+                                    <h4>{{ order.pizza }} (Size: {{ order.size }}) </h4>
+                                </div><br/>
+                                <div class="row">
+                                  <h5 class="card-title col-3">Toppings : </h5>
+                                    <div class="col-9 row">
+                                      {% for topping in order.toppings.all %}
+                                      <span class="order_toppings col-6 p-0">
+                                      {{ topping }}
+                                      </span>
+                                      {% empty %}
+                                      <span class="order_toppings">
+                                      None
+                                      </span>
+                                      {% endfor %}
+                                    </div>
+                                </div>
+                                <h6 class="d-flex justify-content-start">Price : ₹
+                                    <span class="order_price">{{ order.price }}</span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-6">
+                    <h5 class="card-title col-12">Cart is Empty</h5>
+                    <p class="card-text col-12">There are no orders in the cart. Please go to the home page to add orders to the cart.</p>
+                    </div>
+                    <div class="col-6">
+                    <a href="{% url 'home' %}" class="btn btn-primary">Go to HomePage</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if cart_orders_count != 0 %}
+                <hr>
+                <div class="d-flex justify-content-around" style="margin-bottom: 10px;">
+                    <h5 style="padding-top:15px;">Total Amount: ₹ <span id="total_price"></span></h5>
+                    <a class="btn btn-primary" id="place_order"> Place Order </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+{% endblock %}
