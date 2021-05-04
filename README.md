@@ -36,7 +36,7 @@ It is a django based webapp. Its functionalities include:
 - Email - shreylimbani@gmail.com
 
 
-## Screenshots Of WebApp
+## Screenshots Of Pinochio's Pizza Shop
 ![plot](./images/index.jpg)
 ![plot](./images/dashboard.jpg)
 ![plot](./images/pizza.jpg)
