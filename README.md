@@ -6,6 +6,7 @@ It is a django based webapp. Its functionalities include:
 - View available pizzas
 - Order pizzas
 - Add toppings to pizza
+- View Cart
 - View previous orders
 
 
@@ -33,3 +34,11 @@ It is a django based webapp. Its functionalities include:
 - Username - admin_shrey
 - Password - adminshrey
 - Email - shreylimbani@gmail.com
+
+
+## Screenshots Of WebApp
+![plot](./images/index.jpg)
+![plot](./images/dashboard.jpg)
+![plot](./images/pizza.jpg)
+![plot](./images/cart.jpg)
+![plot](./images/orders.jpg)
